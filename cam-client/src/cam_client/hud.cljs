@@ -29,18 +29,18 @@
 (defn debug-view []
   [:div
    [:h2 "Input Configuration"]
-   [:p "Click Jack to toggle"]
+   [:p.blink "Click Jack to toggle"]
    
    (let [mouse-state (-> @config :input :mouse :active)]
      [:input { :type "checkbox" :checked mouse-state
               :on-change #(set-input :mouse (not mouse-state))}])
-   [:p 
-    " Mouse X " (:mouse @hud-state)]
+   [:p.toggle-p
+    [:strong "Mouse "] (str "X "(:mouse @hud-state))]
    [:br]
    (let [orientation-state (-> @config :input :orientation :active)]
      [:input {:type "checkbox" :checked orientation-state
               :on-change #(set-input :orientation (not orientation-state))}])
-   [:p " Orientation "
+   [:p.toggle-p [:strong "Orientation "]
     (when-let [x-val (:orientation @hud-state)]
       (str "X " (:scaled x-val) " Raw " (:unscaled (:orientation @hud-state))))]
 
