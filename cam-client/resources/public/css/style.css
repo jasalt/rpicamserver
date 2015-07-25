@@ -10,3 +10,12 @@ body {
     font-family: TwentyFour;
     color: #ECC34C;
 }
+
+#imgContainer {
+    float:left; display:inline;
+}
+
+#hudContainer {
+    margin-left: 10px;
+    float:left; display:inline;
+}
