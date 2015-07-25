@@ -1,0 +1,11 @@
+/* some style */
+
+@font-face {
+  font-family: 'TwentyFour';
+  src: url('../fonts/digii.ttf');
+}
+
+body {
+    background-color: lightgray;
+    font-family: TwentyFour;
+}
