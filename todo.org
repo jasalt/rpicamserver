@@ -1,0 +1,10 @@
+
+* Raspi
+** Client
+*** Copy accelerometer/mouse control code from cljsout
+*** Query server for new images and display
+** Server
+*** Capture webcam images and serve to client
+Take photo with FSwebcam
+* Arduino
+** Listen serial for servo values
