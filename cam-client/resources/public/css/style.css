@@ -31,12 +31,14 @@ input[type=checkbox]:before
                          { content:""; display:inline-block; width:12px; height:12px; background: url('/img/jacksad.jpg');
                            height:40px;
                            width:40px;
+                           border-radius: 5px;
                          }
 
 input[type=checkbox]:checked:before
                                  { content:""; display:inline-block; width:12px; height:12px; background: url('/img/jackhappy.jpg');
                                    height:40px;
                                    width:40px;
+                                   border-radius: 5px;
                                  }​
 
 
