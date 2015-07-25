@@ -1,14 +1,18 @@
 (ns ^:figwheel-always cam-client.core
-    (:require))
+    (:require
+     [cam-client.config]
+     [cam-client.input]
+     ;;[cam-client.game :refer [game-canvas ball-entity pad-entity]]
+     ))
 
 (enable-console-print!)
 
-(println "Edits to this text should show up in your developer console.")
+(defn init! []
+  ;; Start ajax-ing
+  nil
+  )
 
-;; define your app data so that it doesn't get over-written on reload
-
-(defonce app-state (atom {:text "Hello world!"}))
-
+(set! (.-onload js/window) init!)
 
 (defn on-js-reload []
   ;; optionally touch your app-state to force rerendering depending on
