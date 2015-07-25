@@ -2,6 +2,8 @@
     (:require
      [cam-client.config]
      [cam-client.input]
+     [cam-client.hud]
+     
      ;;[cam-client.game :refer [game-canvas ball-entity pad-entity]]
      ))
 

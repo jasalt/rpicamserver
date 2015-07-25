@@ -88,7 +88,7 @@
 (defn stop-mouse-listener []
   (println "Stopping mouse listener")
   (play-snd disable-snd)
-  (let [img-container (.getElementById js/document "game")]
+  (let [img-container js/document]
     ;;(.removeEventListener img-container put-to-mouse-stream)
     (set! (.-onmousemove img-container) nil)))
 
@@ -102,9 +102,11 @@
   (->> mouse-move-stream
        (r/uniq) ;; Drop duplicate events
        ;; TODO scale mouse pos properly
-       (r/map #(hash-map :scaled (->> (scale-value % [0 200] [0 180])
-                                      (.floor js/Math))
-                         :unscaled (str-float % 2)))))
+       ;; (r/map #(hash-map :scaled (->> (scale-value % [0 200] [0 180])
+       ;;                                (.floor js/Math))
+       ;;                   :unscaled (str-float % 2)))
+       )
+  )
 
 ;;;;;;;; Device Orientation
 

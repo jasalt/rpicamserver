@@ -41,8 +41,8 @@
   (doseq [input default-inputs]
     (if-not (-> @config :input input :active)
       (set-input input true)
-      (print (str input" already active, skipping"))))) 
+      (print (str input" already active, skipping")))))
 
 ;; Hacky function call for setting initial inputs
-(set! (.-onload js/window) (js/setTimeout set-initial-inputs! 2000))
+;;(set! (.-onload js/window) (js/setTimeout set-initial-inputs! 2000))
 

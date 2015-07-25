@@ -7,8 +7,6 @@
    [cam-client.config :refer [config set-input]]
    ;;[cam-client.utils :refer [timeout]]
    )
-  (:require-macros
-   [cljs.core.async.macros :as m :refer [go]])
   )
  
 (defonce hud-state
@@ -30,17 +28,19 @@
 
 (defn debug-view []
   [:div
-   [:h2 "Debug"]
-   [:h3 "Input"]
-   [:p (let [mouse-state (-> @config :input :mouse :active)]
-         [:input { :type "checkbox" :checked mouse-state
-                  :on-change #(set-input :mouse (not mouse-state))}])
+   [:h2 "Input Configuration"]
+   [:p "Click Jack to toggle"]
+   
+   (let [mouse-state (-> @config :input :mouse :active)]
+     [:input { :type "checkbox" :checked mouse-state
+              :on-change #(set-input :mouse (not mouse-state))}])
+   [:p 
     " Mouse X " (:mouse @hud-state)]
    [:br]
-   [:p (let [orientation-state (-> @config :input :orientation :active)]
-         [:input {:type "checkbox" :checked orientation-state
-                  :on-change #(set-input :orientation (not orientation-state))}])
-    " Orientation "
+   (let [orientation-state (-> @config :input :orientation :active)]
+     [:input {:type "checkbox" :checked orientation-state
+              :on-change #(set-input :orientation (not orientation-state))}])
+   [:p " Orientation "
     (when-let [x-val (:orientation @hud-state)]
       (str "X " (:scaled x-val) " Raw " (:unscaled (:orientation @hud-state))))]
 
