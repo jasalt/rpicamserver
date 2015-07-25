@@ -45,6 +45,9 @@
              :css-dirs ["resources/public/css"] ;; watch and update CSS
 
              ;; Start an nREPL server into the running figwheel process
+             :nrepl-port 7888
+             
+             ;; Start an nREPL server into the running figwheel process
              ;; :nrepl-port 7888
 
              ;; Server Ring Handler (optional)
@@ -60,7 +63,7 @@
              ;; #! /bin/sh
              ;; emacsclient -n +$2 $1
              ;;
-             ;; :open-file-command "myfile-opener"
+             :open-file-command "myfile-opener"
 
              ;; if you want to disable the REPL
              ;; :repl false
