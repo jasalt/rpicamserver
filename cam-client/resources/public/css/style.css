@@ -1,12 +1,12 @@
 /* some style */
 
 @font-face {
-  font-family: 'TwentyFour';
-  src: url('../fonts/digii.ttf');
+    font-family: 'TwentyFour';
+    src: url('../fonts/digii.ttf');
 }
 
 body {
-    background-color: black;
+    background-color: white;
     font-family: TwentyFour;
     color: #ECC34C;
 }
@@ -19,3 +19,17 @@ body {
     margin-left: 10px;
     float:left; display:inline;
 }
+
+input[type=checkbox]:before
+                         { content:""; display:inline-block; width:12px; height:12px; background: url('/img/jacksad.jpg');
+                           height:40px;
+                           width:40px;
+                           margin-right: 20px;
+                         }
+
+input[type=checkbox]:checked:before
+                                 { content:""; display:inline-block; width:12px; height:12px; background: url('/img/jackhappy.jpg');
+                           height:40px;
+                           width:40px;
+                           margin-right: 20px;
+                         }​
