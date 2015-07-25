@@ -1,0 +1,7 @@
+Some toy code for servo controlled arduino+raspberrypi webcam.
+
+Clojurescript client for remote controlling motors and viewing images.
+
+Python flask server for serving and processing images + serial.
+
+Arduino sketch for controlling servo angle via serial.
