@@ -21,24 +21,21 @@ void setup() {
   establishContact(); // send a byte to establish contact until receiver responds
 }
 
-void sweep(int ms){
-  /* Goes from 0 degrees to 180 degrees in steps of 1 degree with speed defined 
-     by timeout in ms. */
-  for(pos = 0; pos < 180; pos += 1) {
-      myservo.write(pos);
-      delay(ms);
-    }
-  for(pos = 180; pos>=1; pos-=1) {
-      myservo.write(pos);
-      delay(ms);
-    }
+void servoTo(int deg) {
+  /* Move servo to specified degree position */
+  myservo.write(deg);
 }
 
-void loop() {
-  if (Serial.available() > 0) {
-    inByte = Serial.read();
-    Serial.write(inByte);
-    sweep(10);
+void sweep(int ms) {
+  /* Goes from 0 degrees to 180 degrees in steps of 1 degree with speed defined
+     by timeout in ms. */
+  for(pos = 0; pos < 180; pos += 1) {
+    servoTo(pos);
+    delay(ms);
+  }
+  for(pos = 180; pos>=1; pos-=1) {
+    servoTo(pos);
+    delay(ms);
   }
 }
 
@@ -48,3 +45,19 @@ void establishContact() {
     delay(300);
   }
 }
+
+int readControlValue(){
+  if (Serial.available() > 0) {
+    inByte = Serial.read();
+    //Serial.write(inByte);
+    return constrain(inByte, 0, 255);
+  }
+}
+
+void loop() {
+  readControlValue();
+  servoTo(inByte);
+  //sweep(50);
+  delay(500);
+}
+
