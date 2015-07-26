@@ -10,6 +10,8 @@
                  [reagent "0.5.0"]
                  [reagi "0.10.1"         ;; FRP library based on core.async
                   :exclusions [org.clojure/clojure]]
+                 [com.taoensso/sente "1.5.0"]
+                 [com.cognitect/transit-cljs "0.8.220"]
                  ]
 
   :plugins [[lein-cljsbuild "1.0.5"]

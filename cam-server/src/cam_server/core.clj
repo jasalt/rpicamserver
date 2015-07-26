@@ -10,7 +10,6 @@
 
 (defonce server (atom nil))
 
-
 (defn start-server [port]
   (init)
   (reset! server
