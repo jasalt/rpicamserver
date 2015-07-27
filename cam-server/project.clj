@@ -25,14 +25,17 @@
                  [danlentz/clj-uuid "0.1.6"]
                  [org.clojure/data.codec "0.1.0"]
 
-                 [com.github.sarxos/webcam-capture-driver-v4l4j
-                  "0.3.11-SNAPSHOT"]
+                 ;; [com.github.sarxos/webcam-capture-driver-v4l4j
+                 ;;  "0.3.11-SNAPSHOT"]
+                 [com.github.sarxos/webcam-capture "0.3.10"]
+                 
                  ]
   :repositories {"sonatype snapshots"
                  "http://oss.sonatype.org/content/repositories/snapshots"}
   :min-lein-version "2.0.0"
   :uberjar-name "cam-server.jar"
-  :jvm-opts ["-server" "-Djava.library.path=/usr/lib/jni/"]
+  :jvm-opts ["-server" ;; "-Djava.library.path=/usr/lib/jni/"
+             ]
 
   :main cam-server.core
 

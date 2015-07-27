@@ -60,7 +60,7 @@
       (swap! !msgs add-msg msg)
       (let [img (.getElementById js/document "camImg")]
         (when-let [img-data (:message msg)]
-          (aset img "src" (str "data:image/jpeg;base64," img-data))
+          (aset img "src" img-data)
           )
         )
       (recur))

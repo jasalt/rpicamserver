@@ -8,7 +8,6 @@ Some toy code for servo controlled Arduino + RaspberryPi webcam.
 * Installation
 ** Dependencies
 Install [[http://leiningen.org/][leiningen 2]]
-Setup [[https://code.google.com/p/v4l4j/wiki/GettingStarted][v4l4j]] native extension for camera usage.
 
 ** Running
 Run server on port 3000:
