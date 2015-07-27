@@ -1,6 +1,8 @@
 (ns cam-client.config
   (:require
-   [reagent.core :as r]))
+   [reagent.core :as r]
+   [cam-client.input]
+   ))
 
 (def default-inputs [:mouse
                      ])

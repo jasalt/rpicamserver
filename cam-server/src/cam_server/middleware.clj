@@ -55,10 +55,11 @@
       (wrap-idle-session-timeout
         {:timeout (* 60 30)
          :timeout-response (redirect "/")})
-      wrap-formats
+      ;;wrap-formats ;; This conflicts
       (wrap-defaults
         (-> site-defaults
             (assoc-in [:security :anti-forgery] false)
             (assoc-in  [:session :store] (memory-store session/mem))))
       wrap-servlet-context
-      wrap-internal-error))
+      wrap-internal-error
+      ))

@@ -20,8 +20,9 @@
                  [prone "0.8.2"]
                  [org.clojure/tools.nrepl "0.2.10"]
                  [http-kit "2.1.19"]
-                 [com.taoensso/sente "1.5.0"]
-                 [com.cognitect/transit-clj  "0.8.275"]
+                 ;;[com.taoensso/sente "1.6.0-RC1"]
+                 ;;[com.cognitect/transit-clj  "0.8.275"]
+                 [jarohen/chord "0.6.0"]
                  ]
 
   :min-lein-version "2.0.0"
