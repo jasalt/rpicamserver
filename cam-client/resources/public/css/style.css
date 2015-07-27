@@ -27,6 +27,10 @@ body {
     font-size: 1.2em;
 }
 
+#msgContainer {
+    clear: both;
+}
+
 input[type=checkbox]:before
                          { content:""; display:inline-block; width:12px; height:12px; background: url('/img/jacksad.jpg');
                            height:40px;
