@@ -1,7 +1,21 @@
-Some toy code for servo controlled arduino+raspberrypi webcam.
+* Overview
+Some toy code for servo controlled Arduino+RaspberryPi webcam.
 
-Clojurescript client for remote controlling motors and viewing images.
+- Clojurescript client for remote controlling motors with accelerometer/mouse and viewing images (core.async, reagi, reagent, chord)
+- Clojure http-kit websocket server for serving/processing images + serial connection (luminus template, chord, debian fswebcam)
+- Arduino sketch for controlling servo angle (+ sensor readings) via serial
+  
+* Development
+Install [[http://leiningen.org/][leiningen 2]]
 
-Python flask server for serving and processing images + serial.
+Run server on port 3000:
 
-Arduino sketch for controlling servo angle via serial.
+    lein run
+
+Serve client on port 3449:
+    
+    lein figwheel dev
+
+* Todo
+- Server serial connection code
+- Transmit images over 
