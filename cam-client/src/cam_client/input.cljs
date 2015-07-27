@@ -145,10 +145,10 @@
                                       (.floor js/Math))
                          :unscaled (str-float % 2)))))
 
-;; Aggregate pad positions from streams that provide them
-;; TODO
-;; (defonce camera-rotation-stream
-;;   (->> (r/merge mouse-position-stream
-;;                 (->> orientation-stream (r/map :scaled)))
-;;        (r/map #(move-to! cam-client.core/cam %))
-;;        ))
+(defonce camera-rotation-stream
+  (let [init-stream (r/events 90)] ;; Needs to be initialized for subscribers
+    (->> (r/merge init-stream
+                  mouse-position-stream
+                  (->> orientation-stream (r/map :scaled)))
+         ;; Subscribed in core.cljs
+         )))

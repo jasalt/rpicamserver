@@ -5,7 +5,8 @@
             [clojure.java.io :as io]
             [chord.http-kit :refer [wrap-websocket-handler with-channel]]
             [clj-uuid :as uuid]
-            [clojure.core.async :refer [<! >! put! close! go go-loop] :as a]
+            [clojure.core.async :refer [<! >! put! close! timeout
+                                        go go-loop] :as a]
             ))
 
 (defn home-page []
@@ -15,6 +16,14 @@
 (defn about-page []
   (layout/render "about.html"))
 
+(defn send-loop [client-channel]
+  (go-loop [acc 0]
+    (<! (timeout 2000))
+    (>! client-channel acc)
+    (recur (inc acc))
+    )
+  )
+
 ;; chord.http-kit/with-channel is a wrapper around http-kit’s with-channel
 ;; macro which uses core.async’s primitives to interface with the channel.
 
@@ -23,10 +32,13 @@
   (go-loop []
     (when-let [{:keys [message error] :as msg} (<! ws-channel)]
       (prn "Message received:" msg)
-      (>! ws-channel (if error
-                       (format "Error: '%s'." (pr-str msg))
-                       {:received (format "You passed: '%s' at %s." (pr-str message) (java.util.Date.))}))
-      (recur))))
+      ;; (>! ws-channel (if error
+      ;;                  (format "Error: '%s'." (pr-str msg))
+      ;;                  {:received (format "You passed: '%s' at %s."
+      ;;                                     (pr-str message) (java.util.Date.))}))
+      (recur)))
+  (send-loop ws-channel)
+  )
 
 (defroutes home-routes
   (GET "/" [] (home-page))

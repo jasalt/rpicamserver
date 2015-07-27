@@ -7,14 +7,15 @@
      [cljs.reader :as edn]
      [cljs.core.async :as async :refer [<! >! chan put!]]
      [chord.client :refer [ws-ch]]
-     [reagent.core :as r]
+     [reagent.core :as dom]
+     [reagi.core :as r]
      ;;[cam-client.game :refer [game-canvas ball-entity pad-entity]]
      ))
 
 (enable-console-print!)
 
 (defn message-box [new-msg-ch]
-  (let [!input-value (doto (r/atom nil)
+  (let [!input-value (doto (dom/atom nil)
                        (->> (set! js/window.input-value)))]
     (fn []
       [:div
@@ -74,7 +75,7 @@
                                                       {:format :transit-json}))]
             (if error
               ;; connection failed, print error
-              (r/render-component
+              (dom/render-component
                [:div
                 "Couldn't connect to websocket: "
                 (pr-str error)]
@@ -83,17 +84,21 @@
               (let [ ;; !msgs is a shared atom between the model (above,
                     ;; handling the WS connection) and the view
                     ;; (message-component, handling how it's rendered)
-                    !msgs (doto (r/atom [])
+                    !msgs (doto (dom/atom [])
                             (receive-msgs! ws-channel))
 
                     ;; new-msg-ch is the feedback loop from the view -
                     ;; any messages that the view puts on here are to
                     ;; be sent to the server
-                    new-msg-ch (doto (chan)
+                    new-msg-ch (doto (chan 1)
                                  (send-msgs! ws-channel))]
-
+                
+                ;; subscribe to event stream
+                (r/subscribe cam-client.input/camera-rotation-stream
+                             new-msg-ch)
+                
                 ;; show the message component
-                (r/render-component
+                (dom/render-component
                  [message-component !msgs new-msg-ch]
                  container))))))
 
