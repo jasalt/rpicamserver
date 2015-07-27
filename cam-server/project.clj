@@ -24,6 +24,7 @@
                  ;;[com.cognitect/transit-clj  "0.8.275"]
                  [jarohen/chord "0.6.0"]
                  [danlentz/clj-uuid "0.1.6"]
+                 [base64-clj "0.1.1"]
                  ]
 
   :min-lein-version "2.0.0"
