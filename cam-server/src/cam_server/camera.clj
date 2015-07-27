@@ -1,6 +1,7 @@
 ;; Interface for webcamera with fswebcam.
 ;; TODO use v4l4j etc
 ;; See https://github.com/alandipert/berrycam
+;; http://badankles.com/?p=209
 (ns cam-server.camera
   (:require ;;[base64-clj.core :as base64]
    [clojure.string  :as s]
@@ -11,7 +12,10 @@
                              JPEGFrameGrabber V4L4JConstants VideoDevice
                              VideoFrame)
            (au.edu.jcu.v4l4j.exceptions V4L4JException)
-           (java.awt.image BufferedImage))
+           (java.awt.image BufferedImage)
+           (javax.imageio ImageIO)
+           (java.io ByteArrayOutputStream)
+           )
   )
 
 (def default-device "/dev/video0")
@@ -99,36 +103,42 @@
   (doseq [device-path (keys @captures)]
     (stop! device-path)))
 
-(defn try-cam []
-  @(capture! "/dev/video0"
-             :width 320
-             :height 240
+;;;;;;;;;
+;;;;;;;;;
+
+(defn take-pic! [[[width height] & device]]
+  @(capture! (or device default-device)
+             :width width
+             :height height
              :max-interval-ms 5000
              :quality 60))
 
-;; (defn slurp-bytes
-;;   "Slurp the bytes from a slurpable thing"
-;;   [x]
-;;   (with-open [out (java.io.ByteArrayOutputStream.)]
-;;     (clojure.java.io/copy (clojure.java.io/input-stream x) out)
-;;     (.toByteArray out)))
+(defn to-base64-img-src [img-byte-array]
+  (->> img-byte-array
+       b64/encode
+       (map char)
+       (apply str)
+       (str "data:image/jpeg;base64,")
+       ))
 
-;; (defn to-base64-img-src [img-str]
-;;   (->> (.getBytes img-str)
-;;        b64/encode
-;;        (map char)
-;;        (apply str)
-;;        (str "data:image/jpeg;base64,")
-;;        ))
+(defn take-b64-pic! []
+  "Get b64 encoded jpeg image from /dev/video0 with resolution 320x240."
+  (let [buff-img ((take-pic! [320 240] default-device) :buf)
+        baos (ByteArrayOutputStream.)]
+    (ImageIO/write buff-img "jpg" baos)
+    ;; (catch Exception e (str "Exception in jpg conversion: " (.getMessage e)))
+    (to-base64-img-src (.toByteArray baos))
+    )
+  )
 
-(defn take-picture-fswebcam [[width height] & device]
-  "Take picture with fswebcam and encode it with base64. On laptop, one picture
+(comment
+  ;; This could be removed or used for timelapses maybe?
+  (defn take-picture-fswebcam [[width height] & device]
+    "Take picture with fswebcam and encode it with base64. On laptop, one picture
    takes ~500ms to take. Device defaults to /dev/video0."
-  (let [dev (or device default-device)
-        size (str width "x" height)
-        args ["fswebcam" "-S" "2" "-d" dev
-              "-r" size "--jpeg" "80" "--save" "-"]]
-    (-> (apply sh args)
-        :out)))
-
-;;(take-picture [300 200])
+    (let [dev (or device default-device)
+          size (str width "x" height)
+          args ["fswebcam" "-S" "2" "-d" dev
+                "-r" size "--jpeg" "80" "--save" "-"]]
+      (-> (apply sh args)
+          :out))))
