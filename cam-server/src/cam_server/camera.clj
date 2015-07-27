@@ -1,5 +1,4 @@
-;; Interface for webcamera with fswebcam.
-;; TODO use v4l4j etc
+;; Interface for webcamera v4l4j
 ;; See https://github.com/alandipert/berrycam
 ;; http://badankles.com/?p=209
 (ns cam-server.camera
@@ -8,14 +7,15 @@
    [clojure.data.codec.base64 :as b64]
    [clojure.java.io :as io])
   (:use [clojure.java.shell :only [sh]])
-  (:import (au.edu.jcu.v4l4j CaptureCallback FrameGrabber ImageFormat
-                             JPEGFrameGrabber V4L4JConstants VideoDevice
-                             VideoFrame)
-           (au.edu.jcu.v4l4j.exceptions V4L4JException)
-           (java.awt.image BufferedImage)
-           (javax.imageio ImageIO)
-           (java.io ByteArrayOutputStream)
-           )
+  (:import
+   (au.edu.jcu.v4l4j CaptureCallback FrameGrabber ImageFormat
+                     JPEGFrameGrabber V4L4JConstants VideoDevice
+                     VideoFrame)
+   (au.edu.jcu.v4l4j.exceptions V4L4JException)
+   (java.awt.image BufferedImage)
+   (javax.imageio ImageIO)
+   (java.io ByteArrayOutputStream)
+   )
   )
 
 (def default-device "/dev/video0")
@@ -106,13 +106,6 @@
 ;;;;;;;;;
 ;;;;;;;;;
 
-(defn take-pic! [[[width height] & device]]
-  @(capture! (or device default-device)
-             :width width
-             :height height
-             :max-interval-ms 5000
-             :quality 60))
-
 (defn to-base64-img-src [img-byte-array]
   (->> img-byte-array
        b64/encode
@@ -123,10 +116,13 @@
 
 (defn take-b64-pic! []
   "Get b64 encoded jpeg image from /dev/video0 with resolution 320x240."
-  (let [buff-img ((take-pic! [320 240] default-device) :buf)
+  (let [buff-img (:buf @(capture! default-device
+                                  :width 320
+                                  :height 240
+                                  :max-interval-ms 5000
+                                  :quality 60))
         baos (ByteArrayOutputStream.)]
     (ImageIO/write buff-img "jpg" baos)
-    ;; (catch Exception e (str "Exception in jpg conversion: " (.getMessage e)))
     (to-base64-img-src (.toByteArray baos))
     )
   )

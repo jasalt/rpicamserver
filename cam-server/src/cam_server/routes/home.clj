@@ -20,8 +20,7 @@
 (defn send-loop [client-channel]
   (go-loop [acc 0]
     (<! (timeout 2000))
-    (let [image
-          (camera/take-picture [300 200])]
+    (let [image (camera/take-b64-pic!)]
       (>! client-channel image)  
       )
     (recur (inc acc))
