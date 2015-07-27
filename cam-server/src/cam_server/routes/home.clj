@@ -7,6 +7,7 @@
             [clj-uuid :as uuid]
             [clojure.core.async :refer [<! >! put! close! timeout
                                         go go-loop] :as a]
+            [cam-server.camera :as camera]
             ))
 
 (defn home-page []
@@ -19,7 +20,10 @@
 (defn send-loop [client-channel]
   (go-loop [acc 0]
     (<! (timeout 2000))
-    (>! client-channel acc)
+    (let [image
+          (camera/take-picture [300 200])]
+      (>! client-channel image)  
+      )
     (recur (inc acc))
     )
   )

@@ -28,6 +28,6 @@
     (.addShutdownHook (Runtime/getRuntime) (Thread. stop-server))
     (timbre/info "server is starting on port " port)
     (start-server port)))
-
+;; (start-app [3000])
 (defn -main [& args]
   (start-app args))

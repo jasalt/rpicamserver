@@ -20,16 +20,17 @@
                  [prone "0.8.2"]
                  [org.clojure/tools.nrepl "0.2.10"]
                  [http-kit "2.1.19"]
-                 ;;[com.taoensso/sente "1.6.0-RC1"]
-                 ;;[com.cognitect/transit-clj  "0.8.275"]
+                 
                  [jarohen/chord "0.6.0"]
                  [danlentz/clj-uuid "0.1.6"]
-                 [base64-clj "0.1.1"]
-                 ]
-
+                 [org.clojure/data.codec "0.1.0"]
+                 [com.github.sarxos/webcam-capture-driver-v4l4j
+                  "0.3.11-SNAPSHOT"]]
+  :repositories {"sonatype snapshots"
+                 "http://oss.sonatype.org/content/repositories/snapshots"}
   :min-lein-version "2.0.0"
   :uberjar-name "cam-server.jar"
-  :jvm-opts ["-server"]
+  :jvm-opts ["-server" "-Djava.library.path=/usr/lib/jni/"]
 
   :main cam-server.core
 
