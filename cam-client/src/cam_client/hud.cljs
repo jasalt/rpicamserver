@@ -8,7 +8,7 @@
    ;;[cam-client.utils :refer [timeout]]
    )
   )
- 
+
 (defonce hud-state
   (dom/atom
    {:accelerometer "[Waiting for input values]"}))
@@ -48,11 +48,6 @@
    [:p "TODO" ]
    ])
 
-(defn test-view []
-  [:div
-   [:p "Test view!"]
-   ])
-
 ;; (defn tell-hud [msg]
 ;;   "Tell hud about some event."
 ;;   (r/deliver hud-update-stream msg))
@@ -60,3 +55,10 @@
 (dom/render-component
  [debug-view]
  (.getElementById js/document "hudContainer"))
+
+;; (defn img-view []
+;;   [:img {:src }
+   
+;;    ])
+
+

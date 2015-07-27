@@ -49,16 +49,22 @@
 
 
 (defn add-msg [msgs new-msg]
-  ;; we keep the most recent 10 messages
+  ;; we keep the most recent 5 messages
   (->> (cons new-msg msgs)
-       (take 10)))
+       (take 5)))
 
 (defn receive-msgs! [!msgs server-ch]
   ;; every time we get a message from the server, add it to our list
   (go-loop []
     (when-let [msg (<! server-ch)]
       (swap! !msgs add-msg msg)
-      (recur))))
+      (let [img (.getElementById js/document "camImg")]
+        (when-let [img-data (:message msg)]
+          (aset img "src" (str "data:image/jpeg;base64," img-data))
+          )
+        )
+      (recur))
+    ))
 
 (defn send-msgs! [new-msg-ch server-ch]
   ;; send all the messages to the server
@@ -72,35 +78,35 @@
   (go
     (let [container (.getElementById js/document "msgContainer")
           {:keys [ws-channel error]} (<! (ws-ch "ws://localhost:3000/ws"
-                                                      {:format :transit-json}))]
-            (if error
-              ;; connection failed, print error
-              (dom/render-component
-               [:div
-                "Couldn't connect to websocket: "
-                (pr-str error)]
-               container)
+                                                {:format :transit-json}))]
+      (if error
+        ;; connection failed, print error
+        (dom/render-component
+         [:div
+          "Couldn't connect to websocket: "
+          (pr-str error)]
+         container)
 
-              (let [ ;; !msgs is a shared atom between the model (above,
-                    ;; handling the WS connection) and the view
-                    ;; (message-component, handling how it's rendered)
-                    !msgs (doto (dom/atom [])
-                            (receive-msgs! ws-channel))
+        (let [ ;; !msgs is a shared atom between the model (above,
+              ;; handling the WS connection) and the view
+              ;; (message-component, handling how it's rendered)
+              !msgs (doto (dom/atom [])
+                      (receive-msgs! ws-channel))
 
-                    ;; new-msg-ch is the feedback loop from the view -
-                    ;; any messages that the view puts on here are to
-                    ;; be sent to the server
-                    new-msg-ch (doto (chan 1)
-                                 (send-msgs! ws-channel))]
-                
-                ;; subscribe to event stream
-                (r/subscribe cam-client.input/camera-rotation-stream
-                             new-msg-ch)
-                
-                ;; show the message component
-                (dom/render-component
-                 [message-component !msgs new-msg-ch]
-                 container))))))
+              ;; new-msg-ch is the feedback loop from the view -
+              ;; any messages that the view puts on here are to
+              ;; be sent to the server
+              new-msg-ch (doto (chan 1)
+                           (send-msgs! ws-channel))]
+
+          ;; subscribe to event stream
+          (r/subscribe cam-client.input/camera-rotation-stream
+                       new-msg-ch)
+
+          ;; show the message component
+          (dom/render-component
+           [message-component !msgs new-msg-ch]
+           container))))))
 
 (set! (.-onload js/window) (do (init!) ))
 
