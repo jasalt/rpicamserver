@@ -34,12 +34,15 @@
    (let [mouse-state (-> @config :input :mouse :active)]
      [:input { :type "checkbox" :checked mouse-state
               :on-change #(set-input :mouse (not mouse-state))}])
+
    [:p.toggle-p
-    [:strong "Mouse "] (str "X "(:mouse @hud-state))]
+    [:strong "Mouse "] (str "X "(-> @hud-state :mouse :scaled)
+                            " Raw " (-> @hud-state :mouse :unscaled))]
    [:br]
    (let [orientation-state (-> @config :input :orientation :active)]
      [:input {:type "checkbox" :checked orientation-state
               :on-change #(set-input :orientation (not orientation-state))}])
+
    [:p.toggle-p [:strong "Orientation "]
     (when-let [x-val (:orientation @hud-state)]
       (str "X " (:scaled x-val) " Raw " (:unscaled (:orientation @hud-state))))]

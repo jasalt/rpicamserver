@@ -1,7 +1,7 @@
 (ns cam-client.input
   (:require
    [reagi.core :as r]
-   [cam-client.utils :refer [scale-value str-float]]
+   [cam-client.utils :refer [scale-value str-float get-window-size]]
    ;;[cam-client.physics :refer [move-to! move-right! move-left!]]
    ))
 
@@ -102,11 +102,12 @@
   (->> mouse-move-stream
        (r/uniq) ;; Drop duplicate events
        ;; TODO scale mouse pos properly
-       ;; (r/map #(hash-map :scaled (->> (scale-value % [0 200] [0 180])
-       ;;                                (.floor js/Math))
-       ;;                   :unscaled (str-float % 2)))
-       )
-  )
+       (r/map #(hash-map :scaled (->> (scale-value %
+                                                   [0 (.-innerWidth js/window)]
+                                                   [0 180])
+                                      (.floor js/Math))
+                         :unscaled (str-float % 2)))
+       ))
 
 ;;;;;;;; Device Orientation
 
@@ -148,7 +149,7 @@
 (defonce camera-rotation-stream
   (let [init-stream (r/events 90)] ;; Needs to be initialized for subscribers
     (->> (r/merge init-stream
-                  mouse-position-stream
+                  (->> mouse-position-stream (r/map :scaled))
                   (->> orientation-stream (r/map :scaled)))
          ;; Subscribed in core.cljs
          )))
