@@ -26,7 +26,8 @@
        (str "data:image/jpeg;base64,")
        ))
 
-(def webcam (Webcam/getDefault))
+;;(def webcam (Webcam/getDefault))
+(def webcam (second (Webcam/getWebcams 4000)))
 
 ;;(.close webcam)
 ;;(bean webcam)
