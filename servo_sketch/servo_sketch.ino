@@ -51,7 +51,7 @@ int readControlValue(){
     inByte = Serial.read();
     //Serial.write(inByte);
     Serial.write(inByte);
-    return constrain(inByte, 0, 255);
+    return inByte;
   }
 }
 

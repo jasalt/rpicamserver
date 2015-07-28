@@ -8,6 +8,7 @@
             [clojure.core.async :refer [<! >! put! close! timeout
                                         go go-loop] :as a]
             [cam-server.camera :as camera]
+            [cam-server.servo :refer [servo-to]]
             ))
 
 (defn home-page []
@@ -34,12 +35,15 @@
   (println "Opened connection from" (:remote-addr req))
   (go-loop []
     (when-let [{:keys [message error] :as msg} (<! ws-channel)]
-      (prn "Message received:" msg)
+      (prn "Message received:" message)
       ;; (>! ws-channel (if error
       ;;                  (format "Error: '%s'." (pr-str msg))
       ;;                  {:received (format "You passed: '%s' at %s."
       ;;                                     (pr-str message) (java.util.Date.))}))
-      (recur)))
+      (servo-to message) 
+      (recur)
+      )
+    )
   (send-loop ws-channel)
   )
 

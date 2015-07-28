@@ -36,21 +36,23 @@
 
 (defn cleanup [port]
   (serial/remove-listener port)
-  (serial/close arduino-port)
+  (serial/close port)
   )
 
 (extend-protocol serial/Bytable
   String
   (to-bytes [this] (.getBytes this "ASCII")))
 
-(defn servo-to [port degree]
+(defonce arduino-port (initialize))
+
+(defn servo-to [degree]
   "Move servo to given degree."
   ;;(println ("Servo t: " degree))
   (->> degree char str
-       (serial/write port)) ;; TODO dumb conversions
+       (serial/write arduino-port)) ;; TODO dumb conversions
   )
 
 (comment
   (def sp (initialize))
-  (servo-to sp 127)
+  (servo-to 127)
   )
