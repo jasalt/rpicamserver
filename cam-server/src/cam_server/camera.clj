@@ -27,11 +27,14 @@
        ))
 
 (def webcam (Webcam/getDefault))
-(.open webcam)
 
-
+;;(.close webcam)
+;;(bean webcam)
 (defn take-b64-pic! []
   "Get b64 encoded jpeg image from /dev/video0 with resolution 320x240."
+  (when-not (get (bean webcam) :open)
+    (.open webcam))
+  
   (let [buff-img (.getImage webcam)
         baos (ByteArrayOutputStream.)]
     (ImageIO/write buff-img "jpg" baos)
