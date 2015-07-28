@@ -50,6 +50,7 @@ int readControlValue(){
   if (Serial.available() > 0) {
     inByte = Serial.read();
     //Serial.write(inByte);
+    Serial.write(inByte);
     return constrain(inByte, 0, 255);
   }
 }
@@ -58,6 +59,9 @@ void loop() {
   readControlValue();
   servoTo(inByte);
   //sweep(50);
-  delay(500);
+  
+  delay(50);
+
+
 }
 
