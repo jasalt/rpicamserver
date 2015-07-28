@@ -44,7 +44,7 @@
 
 (defn message-component [!msgs new-msg-ch]
   [:div
-   [message-box new-msg-ch]
+   ;;[message-box new-msg-ch]
    [message-list !msgs]])
 
 
@@ -57,7 +57,7 @@
   ;; every time we get a message from the server, add it to our list
   (go-loop []
     (when-let [msg (<! server-ch)]
-      (swap! !msgs add-msg msg)
+      ;;(swap! !msgs add-msg msg)
       (let [img (.getElementById js/document "camImg")]
         (when-let [img-data (:message msg)]
           (aset img "src" img-data)
