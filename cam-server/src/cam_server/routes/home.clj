@@ -18,19 +18,16 @@
 (defn about-page []
   (layout/render "about.html"))
 
+;; TODO handle client disconnect
 (defn send-loop [client-channel]
   (go-loop [acc 0]
     (<! (timeout 100))
     (let [image (camera/take-b64-pic!)]
-      (>! client-channel image)  
-      )
-    (recur (inc acc))
-    )
-  )
+      (>! client-channel image))
+    (recur (inc acc))))
 
 ;; chord.http-kit/with-channel is a wrapper around http-kit’s with-channel
 ;; macro which uses core.async’s primitives to interface with the channel.
-
 (defn ws-handler [{:keys [ws-channel] :as req}]
   (println "Opened connection from" (:remote-addr req))
   (go-loop []
@@ -41,16 +38,12 @@
       ;;                  {:received (format "You passed: '%s' at %s."
       ;;                                     (pr-str message) (java.util.Date.))}))
       (servo-to message) 
-      (recur)
-      )
-    )
-  (send-loop ws-channel)
-  )
+      (recur)))
+  (send-loop ws-channel))
 
 (defroutes home-routes
   (GET "/" [] (home-page))
   (GET "/about" [] (about-page))
 
   (GET "/ws" req (-> ws-handler
-                     (wrap-websocket-handler {:format :transit-json})))
-  )
+                     (wrap-websocket-handler {:format :transit-json}))))

@@ -15,9 +15,6 @@
    )
   )
 
-(def default-device "/dev/video0")
-
-
 (defn to-base64-img-src [img-byte-array]
   (->> img-byte-array
        b64/encode
@@ -51,7 +48,7 @@
   (defn take-picture-fswebcam [[width height] & device]
     "Take picture with fswebcam and encode it with base64. On laptop, one picture
    takes ~500ms to take. Device defaults to /dev/video0."
-    (let [dev (or device default-device)
+    (let [dev (or device "/dev/video0")
           size (str width "x" height)
           args ["fswebcam" "-S" "2" "-d" dev
                 "-r" size "--jpeg" "80" "--save" "-"]]
