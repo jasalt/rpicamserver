@@ -27,7 +27,10 @@
        ))
 
 ;;(def webcam (Webcam/getDefault))
-(def webcam (second (Webcam/getWebcams 4000)))
+(let [cams (Webcam/getWebcams 4000)]
+  (if (< 1 (count cams))
+    (def webcam (second cams))    
+    (def webcam (first cams))))
 
 ;;(.close webcam)
 ;;(bean webcam)
