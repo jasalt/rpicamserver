@@ -23,8 +23,6 @@
   (fn [b]
     (>!! serial-input-chan (.read b))))
 
-
-
 (defn initialize []
   ;; TODO read and set port automagically
   (defonce arduino-port (serial/open "ttyACM0" :baud-rate 9600))  
@@ -50,7 +48,8 @@
 (defn servo-to [degree]
   "Move servo to given degree."
   ;;(println ("Servo t: " degree))
-  (->> degree char str
+  (->> ;; degree char str
+   (str "<S:" degree ">")
        (serial/write arduino-port)) ;; TODO dumb conversions
   )
 
@@ -59,3 +58,5 @@
   (servo-to 3)
   (cleanup arduino-port)
   )
+
+(initialize)

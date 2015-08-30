@@ -19,5 +19,6 @@ Serve client on port 3449:
     lein figwheel dev
 
 * Todo
-- Server serial connection code
+- Support controlling motors
+- Initialize serial by clicking button on UI?
 
