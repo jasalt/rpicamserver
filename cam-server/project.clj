@@ -28,6 +28,7 @@
                  ;; [com.github.sarxos/webcam-capture-driver-v4l4j
                  ;;  "0.3.11-SNAPSHOT"]
                  [com.github.sarxos/webcam-capture "0.3.11-SNAPSHOT"]
+                 [com.github.sarxos/v4l4j "0.9.1-r507"]
                  [clj-serial "2.0.3"]]
   :repositories {"sonatype snapshots"
                  "http://oss.sonatype.org/content/repositories/snapshots"}
