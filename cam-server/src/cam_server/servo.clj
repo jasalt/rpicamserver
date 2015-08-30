@@ -23,9 +23,11 @@
   (fn [b]
     (>!! serial-input-chan (.read b))))
 
+
+
 (defn initialize []
   ;; TODO read and set port automagically
-  (defonce arduino-port (serial/open "ttyACM0" :baud-rate 9600))
+  (defonce arduino-port (serial/open "ttyACM0" :baud-rate 9600))  
   ;; (list-ports)
 
   (def serial-input-chan (chan))
@@ -43,7 +45,7 @@
   String
   (to-bytes [this] (.getBytes this "ASCII")))
 
-(defonce arduino-port (initialize))
+;;(defonce arduino-port (initialize))
 
 (defn servo-to [degree]
   "Move servo to given degree."
@@ -54,5 +56,6 @@
 
 (comment
   (def sp (initialize))
-  (servo-to 127)
+  (servo-to 3)
+  (cleanup arduino-port)
   )
