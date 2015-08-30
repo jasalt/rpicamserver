@@ -1,7 +1,7 @@
 (ns cam-client.input
   (:require
    [reagi.core :as r]
-   [cam-client.utils :refer [scale-value str-float get-window-size]]
+   [cam-client.utils :refer [scale-value str-float]]
    ;;[cam-client.physics :refer [move-to! move-right! move-left!]]
    ))
 
