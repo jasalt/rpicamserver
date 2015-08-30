@@ -1,1 +1,4 @@
 .lein-env
+/cam-client/project.clj~
+/cam-server/.nrepl-port
+/cam-server/project.clj~
