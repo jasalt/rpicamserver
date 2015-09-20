@@ -1,0 +1,3 @@
+[submodule "zumobot"]
+	path = zumobot
+	url = git@github.com:jasalt/zumobot.git
