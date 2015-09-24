@@ -3,10 +3,13 @@ RaspberryPi webcam on Arduino Zumo Shield.
 - Clojurescript client for remote controlling motors with accelerometer/mouse and viewing images (core.async, reagi, reagent, chord)
 - Clojure http-kit websocket server for serving/processing images + serial connection (luminus template, chord, debian fswebcam)
 - Arduino sketch for controlling servo angle (+ sensor readings) via serial
-  
-TODO problems getting the java webcam library to work with RPi 2
+
+*STATUS* hardware is ready for testing
+*TODO* diagnose problems getting the Java Webcam library to work with RPi 2
+[[file:media/hardware-august-2015.jpg]]
 
 * Installation
+(TODO write better docs)
 ** Dependencies
 Install [[http://leiningen.org/][leiningen 2]]
 
